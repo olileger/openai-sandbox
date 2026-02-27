@@ -6,33 +6,35 @@ from agents import Agent, Runner, function_tool
 
 
 @function_tool
-def find_doubitchou():
+def get_weather(city: str) -> str:
     """
-    this tool finds doubitchou
+    this tool gets weather
     """
-    return "- Oui, effectivement on a un petit peu l'impression que c'est fait à la main, quoi... \
-            -Oui, oui, oui, c'est fait à la main, c'est roulé à la main sous les aisselles"
-
+    print(f"Getting weather for {city}...")
+    return "The weather is sunny with a high of 25 degrees Celsius."
 
 @function_tool
-def find_kloug():
+def swap_text(text: str) -> str:
     """
-    this tool find kloug
+    this tool swap a given text
     """
-    return "- Mais... mais qu'est ce que c'est que cette matière ? Mais c'est d'la merde ? - Non, c'est kloug."
+    print(f"Swapping text: {text}...")
+    return text[::-1]
 
 
 async def main():
 
     a = Agent(
-    name="Tools",
-    instructions="You are knowledgeable on anything.",
-    tools=[find_doubitchou, find_kloug]
+    name="Test Agent",
+    instructions="You are knowledgeable on anything. Rely on the tools to answer the user's question.",
+    tools=[get_weather, swap_text]
     )
 
-    result = await Runner.run(a, "Do you know where are doubitchou and kloug?")
+    result = await Runner.run(a, "Quel temps fait-il à Paris ?!")
     print(result.final_output)
 
+    result = await Runner.run(a, "Swap this: 'Hello World ?!'")
+    print(result.final_output)
 
 ##
 
